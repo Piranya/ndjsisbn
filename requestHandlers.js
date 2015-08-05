@@ -111,19 +111,13 @@ function isbn(response, request) {
 
             console.log(title,price);
 
-            responseBody = '<html>'+
-              '<head>'+
-              '<meta http-equiv="Content-Type" '+
-              'content="text/html; charset=UTF-8" />'+
-              '</head>'+
-              '<body>'+
-              title + '<br/>' + price +
-              '</body>'+
-              '</html>';
 
-            response.writeHead(200, {"Content-Type": "text/html"});
-            response.write(responseBody);
-            response.end();
+            response.writeHead(200, {"Content-Type": "application/json"});
+            var bookObject = { title: title, price: price, "author": "King", "store":"Yakaboo"};
+            var json = JSON.stringify({
+              books: bookObject
+            });
+            response.end(json);
        });
 
   //978-5-17-075637-7 - зеленая миля. Кинг
