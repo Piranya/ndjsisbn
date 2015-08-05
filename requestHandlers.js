@@ -109,12 +109,12 @@ function isbn(response, request) {
             title = $('#product-title h1').text();
             // price = $('#product-price-1037299 .price span').eq(0).text();
             price = "10$";
-
+            image = $('.product-image #image').attr('src');
             console.log(title,price);
 
 
             response.writeHead(200, {"Content-Type": "application/json",'charset' : 'utf-8'});
-            var bookObject = { title: title, price: price, "author": "King", "store":"Yakaboo"};
+            var bookObject = { title: title, cover:image, price: price, "author": "King", "store":"Yakaboo"};
             var json = JSON.stringify({
               books: bookObject
             });
