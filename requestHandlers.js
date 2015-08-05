@@ -86,5 +86,51 @@ function search(response, request) {
 }
 
 
+function isbn(response, request) {
+  console.log("Request handler 'isbn' was called.");
+  var url = require('url');
+  var url_parts = url.parse(request.url, true);
+  var query = url_parts.query;
+  console.log(url_parts.query.isbn);
+  isbn = url_parts.query.isbn;
+
+  request = require("request"),
+       options = {
+         uri: 'http://www.yakaboo.ua/search/?cat=&q='+isbn,
+         timeout: 5000,
+         followAllRedirects: true
+       };
+       request( options, function(error, resp, body) {
+           // console.log( response );
+            // console.log(response2.request.uri.href);
+
+            var cheerio = require('cheerio'),
+              $ = cheerio.load(body);
+            title = $('#product-title h1').text();
+            price = $('.product-essential .price').text();
+
+            console.log(title,price);
+
+            responseBody = '<html>'+
+              '<head>'+
+              '<meta http-equiv="Content-Type" '+
+              'content="text/html; charset=UTF-8" />'+
+              '</head>'+
+              '<body>'+
+              title + '<br/>' + price +
+              '</body>'+
+              '</html>';
+
+            response.writeHead(200, {"Content-Type": "text/html"});
+            response.write(responseBody);
+            response.end();
+       });
+
+  //978-5-17-075637-7 - зеленая миля. Кинг
+
+}
+
+
 exports.start = start;
 exports.search = search;
+exports.isbn = isbn;
