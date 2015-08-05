@@ -107,16 +107,18 @@ function isbn(response, request) {
             var cheerio = require('cheerio'),
               $ = cheerio.load(body);
             title = $('#product-title h1').text();
-            price = $('.product-essential .price').text();
+            // price = $('#product-price-1037299 .price span').eq(0).text();
+            price = "10$";
 
             console.log(title,price);
 
 
-            response.writeHead(200, {"Content-Type": "application/json"});
+            response.writeHead(200, {"Content-Type": "application/json",'charset' : 'utf-8'});
             var bookObject = { title: title, price: price, "author": "King", "store":"Yakaboo"};
             var json = JSON.stringify({
               books: bookObject
             });
+            console.log(json);
             response.end(json);
        });
 
